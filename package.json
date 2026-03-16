@@ -1,0 +1,43 @@
+{
+  "name": "@coinhero/sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./host": {
+      "types": "./dist/host.d.ts",
+      "import": "./dist/host.js",
+      "default": "./dist/host.js"
+    },
+    "./connector": {
+      "types": "./dist/app/connector.d.ts",
+      "import": "./dist/app/connector.js",
+      "default": "./dist/app/connector.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "peerDependencies": {
+    "@wagmi/core": ">=2.0.0",
+    "viem": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@wagmi/core": { "optional": true },
+    "viem": { "optional": true }
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@wagmi/core": "^2.16.0",
+    "viem": "^2.21.0"
+  }
+}
