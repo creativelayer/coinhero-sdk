@@ -26,6 +26,8 @@ export declare class CoinHeroSDK {
         /** Request the host to close this mini app */
         close: () => Promise<void>;
     };
+    /** Request an auth token (JWT) from the CoinHero host */
+    getAuthToken(): Promise<string | null>;
     /** Request updated context from the host */
     refreshContext(): Promise<CoinHeroContext | null>;
     /** Clean up listeners */

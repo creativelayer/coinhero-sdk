@@ -21,6 +21,8 @@ export interface CoinHeroHostOptions {
   onReady?: () => void
   /** Called when the app requests to close */
   onClose?: () => void
+  /** Called when the app requests an auth token — return a signed JWT */
+  onAuthTokenRequest?: () => Promise<string | null>
 }
 
 export class CoinHeroHost {
@@ -30,6 +32,7 @@ export class CoinHeroHost {
   private onWalletRequest: WalletRequestHandler
   private onReady?: () => void
   private onClose?: () => void
+  private onAuthTokenRequest?: () => Promise<string | null>
   private messageFilter: ((event: MessageEvent) => boolean) | null = null
 
   constructor(options: CoinHeroHostOptions) {
@@ -38,6 +41,7 @@ export class CoinHeroHost {
     this.onWalletRequest = options.onWalletRequest
     this.onReady = options.onReady
     this.onClose = options.onClose
+    this.onAuthTokenRequest = options.onAuthTokenRequest
   }
 
   /** Start listening for messages from the iframe */
@@ -121,6 +125,23 @@ export class CoinHeroHost {
       case 'coinhero_close':
         this.onClose?.()
         return { result: true }
+
+      case 'coinhero_getAuthToken':
+        if (this.onAuthTokenRequest) {
+          try {
+            const token = await this.onAuthTokenRequest()
+            return { result: token }
+          } catch (err: unknown) {
+            const error = err as { code?: number; message?: string }
+            return {
+              error: {
+                code: error.code ?? -32603,
+                message: error.message ?? 'Auth token request failed',
+              },
+            }
+          }
+        }
+        return { error: { code: -32601, message: 'Auth token not available' } }
 
       default:
         // All other methods (eth_*, personal_sign, etc.) → wallet handler

@@ -12,6 +12,7 @@ export class CoinHeroHost {
     onWalletRequest;
     onReady;
     onClose;
+    onAuthTokenRequest;
     messageFilter = null;
     constructor(options) {
         this.iframe = options.iframe;
@@ -19,6 +20,7 @@ export class CoinHeroHost {
         this.onWalletRequest = options.onWalletRequest;
         this.onReady = options.onReady;
         this.onClose = options.onClose;
+        this.onAuthTokenRequest = options.onAuthTokenRequest;
     }
     /** Start listening for messages from the iframe */
     listen() {
@@ -84,6 +86,23 @@ export class CoinHeroHost {
             case 'coinhero_close':
                 this.onClose?.();
                 return { result: true };
+            case 'coinhero_getAuthToken':
+                if (this.onAuthTokenRequest) {
+                    try {
+                        const token = await this.onAuthTokenRequest();
+                        return { result: token };
+                    }
+                    catch (err) {
+                        const error = err;
+                        return {
+                            error: {
+                                code: error.code ?? -32603,
+                                message: error.message ?? 'Auth token request failed',
+                            },
+                        };
+                    }
+                }
+                return { error: { code: -32601, message: 'Auth token not available' } };
             default:
                 // All other methods (eth_*, personal_sign, etc.) → wallet handler
                 if (this.onWalletRequest) {

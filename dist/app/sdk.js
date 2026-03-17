@@ -59,6 +59,16 @@ export class CoinHeroSDK {
             await this.getTransport().request('coinhero_close');
         },
     };
+    /** Request an auth token (JWT) from the CoinHero host */
+    async getAuthToken() {
+        try {
+            const result = await this.getTransport().request('coinhero_getAuthToken');
+            return typeof result === 'string' ? result : null;
+        }
+        catch {
+            return null;
+        }
+    }
     /** Request updated context from the host */
     async refreshContext() {
         try {

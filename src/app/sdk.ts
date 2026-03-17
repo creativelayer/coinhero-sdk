@@ -70,6 +70,16 @@ export class CoinHeroSDK {
     },
   }
 
+  /** Request an auth token (JWT) from the CoinHero host */
+  async getAuthToken(): Promise<string | null> {
+    try {
+      const result = await this.getTransport().request('coinhero_getAuthToken')
+      return typeof result === 'string' ? result : null
+    } catch {
+      return null
+    }
+  }
+
   /** Request updated context from the host */
   async refreshContext(): Promise<CoinHeroContext | null> {
     try {

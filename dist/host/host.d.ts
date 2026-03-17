@@ -17,6 +17,8 @@ export interface CoinHeroHostOptions {
     onReady?: () => void;
     /** Called when the app requests to close */
     onClose?: () => void;
+    /** Called when the app requests an auth token — return a signed JWT */
+    onAuthTokenRequest?: () => Promise<string | null>;
 }
 export declare class CoinHeroHost {
     private transport;
@@ -25,6 +27,7 @@ export declare class CoinHeroHost {
     private onWalletRequest;
     private onReady?;
     private onClose?;
+    private onAuthTokenRequest?;
     private messageFilter;
     constructor(options: CoinHeroHostOptions);
     /** Start listening for messages from the iframe */
