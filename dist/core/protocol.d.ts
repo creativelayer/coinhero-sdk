@@ -43,6 +43,14 @@ export interface CoinHeroContext {
     /** Host version */
     hostVersion: string;
 }
+export interface CoinHeroAuthResponse {
+    /** CoinHero-issued JWT */
+    token: string;
+    /** User's signed approval message for this specific app */
+    approvalMessage: string;
+    /** EIP-191 signature of the approval message */
+    approvalSignature: string;
+}
 export declare function isCoinHeroMessage(data: unknown): data is CoinHeroMessage;
 export declare function createRequest(method: string, params?: unknown[]): CoinHeroMessage;
 export declare function createResponse(id: string, result?: unknown, error?: CoinHeroRpcError): CoinHeroMessage;

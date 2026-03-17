@@ -59,11 +59,15 @@ export class CoinHeroSDK {
             await this.getTransport().request('coinhero_close');
         },
     };
-    /** Request an auth token (JWT) from the CoinHero host */
+    /** Request an auth token + approval from the CoinHero host */
     async getAuthToken() {
         try {
             const result = await this.getTransport().request('coinhero_getAuthToken');
-            return typeof result === 'string' ? result : null;
+            const auth = result;
+            if (auth?.token && auth?.approvalSignature && auth?.approvalMessage) {
+                return auth;
+            }
+            return null;
         }
         catch {
             return null;

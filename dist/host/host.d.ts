@@ -4,7 +4,7 @@
  * Used by the CoinHero launcher to handle messages from embedded
  * mini apps and proxy wallet operations to the real connected wallet.
  */
-import type { CoinHeroContext } from '../core/protocol.js';
+import type { CoinHeroContext, CoinHeroAuthResponse } from '../core/protocol.js';
 export type WalletRequestHandler = (method: string, params?: unknown[]) => Promise<unknown>;
 export interface CoinHeroHostOptions {
     /** The iframe element containing the mini app */
@@ -17,8 +17,8 @@ export interface CoinHeroHostOptions {
     onReady?: () => void;
     /** Called when the app requests to close */
     onClose?: () => void;
-    /** Called when the app requests an auth token — return a signed JWT */
-    onAuthTokenRequest?: () => Promise<string | null>;
+    /** Called when the app requests auth — return JWT + approval signature */
+    onAuthTokenRequest?: () => Promise<CoinHeroAuthResponse | null>;
 }
 export declare class CoinHeroHost {
     private transport;

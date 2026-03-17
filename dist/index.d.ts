@@ -1,5 +1,5 @@
 export { CoinHeroSDK } from './app/sdk.js';
 export { CoinHeroEthProvider } from './app/provider.js';
 export { coinHeroConnector } from './app/connector.js';
-export type { CoinHeroContext, CoinHeroRpcError } from './core/protocol.js';
+export type { CoinHeroContext, CoinHeroAuthResponse, CoinHeroRpcError } from './core/protocol.js';
 //# sourceMappingURL=index.d.ts.map

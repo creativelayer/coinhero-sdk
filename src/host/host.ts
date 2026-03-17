@@ -6,7 +6,7 @@
  */
 
 import { CoinHeroTransport } from '../core/transport.js'
-import type { CoinHeroContext, CoinHeroRequest, CoinHeroRpcError } from '../core/protocol.js'
+import type { CoinHeroContext, CoinHeroAuthResponse, CoinHeroRequest, CoinHeroRpcError } from '../core/protocol.js'
 
 export type WalletRequestHandler = (method: string, params?: unknown[]) => Promise<unknown>
 
@@ -21,8 +21,8 @@ export interface CoinHeroHostOptions {
   onReady?: () => void
   /** Called when the app requests to close */
   onClose?: () => void
-  /** Called when the app requests an auth token — return a signed JWT */
-  onAuthTokenRequest?: () => Promise<string | null>
+  /** Called when the app requests auth — return JWT + approval signature */
+  onAuthTokenRequest?: () => Promise<CoinHeroAuthResponse | null>
 }
 
 export class CoinHeroHost {
@@ -32,7 +32,7 @@ export class CoinHeroHost {
   private onWalletRequest: WalletRequestHandler
   private onReady?: () => void
   private onClose?: () => void
-  private onAuthTokenRequest?: () => Promise<string | null>
+  private onAuthTokenRequest?: () => Promise<CoinHeroAuthResponse | null>
   private messageFilter: ((event: MessageEvent) => boolean) | null = null
 
   constructor(options: CoinHeroHostOptions) {

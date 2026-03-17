@@ -6,7 +6,7 @@
  */
 
 import { CoinHeroTransport } from '../core/transport.js'
-import type { CoinHeroContext } from '../core/protocol.js'
+import type { CoinHeroContext, CoinHeroAuthResponse } from '../core/protocol.js'
 import { CoinHeroEthProvider } from './provider.js'
 
 const PING_TIMEOUT_MS = 500
@@ -70,11 +70,15 @@ export class CoinHeroSDK {
     },
   }
 
-  /** Request an auth token (JWT) from the CoinHero host */
-  async getAuthToken(): Promise<string | null> {
+  /** Request an auth token + approval from the CoinHero host */
+  async getAuthToken(): Promise<CoinHeroAuthResponse | null> {
     try {
       const result = await this.getTransport().request('coinhero_getAuthToken')
-      return typeof result === 'string' ? result : null
+      const auth = result as CoinHeroAuthResponse
+      if (auth?.token && auth?.approvalSignature && auth?.approvalMessage) {
+        return auth
+      }
+      return null
     } catch {
       return null
     }

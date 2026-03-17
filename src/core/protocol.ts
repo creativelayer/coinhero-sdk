@@ -56,6 +56,17 @@ export interface CoinHeroContext {
   hostVersion: string
 }
 
+// ── Auth ──────────────────────────────────────────────────────────────
+
+export interface CoinHeroAuthResponse {
+  /** CoinHero-issued JWT */
+  token: string
+  /** User's signed approval message for this specific app */
+  approvalMessage: string
+  /** EIP-191 signature of the approval message */
+  approvalSignature: string
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────
 
 export function isCoinHeroMessage(data: unknown): data is CoinHeroMessage {
