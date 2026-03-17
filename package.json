@@ -20,24 +20,41 @@
       "types": "./dist/app/connector.d.ts",
       "import": "./dist/app/connector.js",
       "default": "./dist/app/connector.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "default": "./dist/server.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch"
   },
   "peerDependencies": {
     "@wagmi/core": ">=2.0.0",
+    "jose": ">=5.0.0",
     "viem": ">=2.0.0"
   },
   "peerDependenciesMeta": {
-    "@wagmi/core": { "optional": true },
-    "viem": { "optional": true }
+    "@wagmi/core": {
+      "optional": true
+    },
+    "jose": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
+    "@types/node": "^25.5.0",
     "@wagmi/core": "^2.16.0",
+    "jose": "^6.2.1",
+    "typescript": "^5.8.3",
     "viem": "^2.21.0"
   }
 }
