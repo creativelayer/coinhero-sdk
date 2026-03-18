@@ -1,6 +1,6 @@
 # @coinhero/sdk
 
-SDK for building apps that run inside the CoinHero platform. Provides a postMessage bridge between embedded apps (iframes) and the CoinHero host, including wallet proxying, authentication, and a wagmi connector.
+SDK for building apps that run inside the CoinHero platform. Provides a postMessage bridge between embedded apps (iframes) and a CoinHero host, including wallet proxying, authentication, and a wagmi connector.
 
 ## Architecture
 
@@ -35,7 +35,7 @@ npm install @coinhero/sdk
 
 ## App SDK (mini apps)
 
-Used by apps (Plinks, Rips, etc.) running inside a CoinHero iframe.
+Used by apps running inside a CoinHero iframe.
 
 ### Detecting the CoinHero environment
 
@@ -186,11 +186,11 @@ The JWKS URL defaults to `https://coinhero.fun/api/auth/jwks`. Override for loca
 ```ts
 // Via options
 const result = await verifyCoinHeroToken(token, {
-  jwksUrl: 'https://paul-coinhero.remx.xyz/api/auth/jwks',
+  jwksUrl: 'http://localhost:4000/api/auth/jwks',
 })
 
 // Or via environment variable
-// COINHERO_JWKS_URL=https://paul-coinhero.remx.xyz/api/auth/jwks
+// COINHERO_JWKS_URL=http://localhost:4000/api/auth/jwks
 ```
 
 JWKS responses are cached for 1 hour automatically.
@@ -303,4 +303,10 @@ User                CoinHero          App (iframe)        App Backend
 
 ## License
 
-Private - Creative Layer
+Copyright (c) 2026 CoinHero
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
