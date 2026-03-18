@@ -11,10 +11,6 @@ import { CoinHeroSDK } from './sdk.js'
 
 coinHeroConnector.type = 'coinHero' as const
 
-let accountsChanged: Connector['onAccountsChanged'] | undefined
-let chainChanged: Connector['onChainChanged'] | undefined
-let disconnectHandler: Connector['onDisconnect'] | undefined
-
 /**
  * Create a wagmi connector that uses the CoinHero host's wallet.
  *
@@ -22,6 +18,9 @@ let disconnectHandler: Connector['onDisconnect'] | undefined
  */
 export function coinHeroConnector(sdk?: CoinHeroSDK): CreateConnectorFn {
   const _sdk = sdk ?? new CoinHeroSDK()
+  let accountsChanged: Connector['onAccountsChanged'] | undefined
+  let chainChanged: Connector['onChainChanged'] | undefined
+  let disconnectHandler: Connector['onDisconnect'] | undefined
 
   return createConnector((config) => ({
     id: 'coinHero',

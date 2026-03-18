@@ -26,6 +26,8 @@ interface PendingRequest {
   timer: ReturnType<typeof setTimeout>
 }
 
+type MessageFilter = (event: MessageEvent) => boolean
+
 export class CoinHeroTransport {
   private target: Window
   private pendingRequests = new Map<string, PendingRequest>()
@@ -33,15 +35,19 @@ export class CoinHeroTransport {
   private requestHandler: RequestHandler | null = null
   private messageHandler: ((event: MessageEvent) => void) | null = null
   private allowedOrigin: string | null
+  private messageFilter: MessageFilter | null
 
   constructor(options: {
     /** Window to send messages to (window.parent for apps, iframe.contentWindow for host) */
     target: Window
     /** If set, only accept messages from this origin. null = accept all. */
     allowedOrigin?: string | null
+    /** Additional predicate for filtering inbound postMessage events. */
+    messageFilter?: MessageFilter | null
   }) {
     this.target = options.target
     this.allowedOrigin = options.allowedOrigin ?? null
+    this.messageFilter = options.messageFilter ?? null
   }
 
   /** Start listening for incoming messages */
@@ -49,6 +55,8 @@ export class CoinHeroTransport {
     if (this.messageHandler) return
 
     this.messageHandler = (event: MessageEvent) => {
+      if (this.messageFilter && !this.messageFilter(event)) return
+
       // Origin check
       if (this.allowedOrigin && event.origin !== this.allowedOrigin) return
 
