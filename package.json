@@ -32,7 +32,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "@wagmi/core": ">=2.0.0",
@@ -54,7 +56,9 @@
     "@types/node": "^25.5.0",
     "@wagmi/core": "^2.16.0",
     "jose": "^6.2.1",
+    "jsdom": "^29.0.0",
     "typescript": "^5.8.3",
-    "viem": "^2.21.0"
+    "viem": "^2.21.0",
+    "vitest": "^4.1.0"
   }
 }
