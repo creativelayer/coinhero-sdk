@@ -13,15 +13,19 @@ export class CoinHeroTransport {
     requestHandler = null;
     messageHandler = null;
     allowedOrigin;
+    messageFilter;
     constructor(options) {
         this.target = options.target;
         this.allowedOrigin = options.allowedOrigin ?? null;
+        this.messageFilter = options.messageFilter ?? null;
     }
     /** Start listening for incoming messages */
     listen() {
         if (this.messageHandler)
             return;
         this.messageHandler = (event) => {
+            if (this.messageFilter && !this.messageFilter(event))
+                return;
             // Origin check
             if (this.allowedOrigin && event.origin !== this.allowedOrigin)
                 return;

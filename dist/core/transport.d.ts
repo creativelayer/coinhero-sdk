@@ -11,6 +11,7 @@ type RequestHandler = (request: CoinHeroRequest) => Promise<{
     result?: unknown;
     error?: CoinHeroRpcError;
 }>;
+type MessageFilter = (event: MessageEvent) => boolean;
 export declare class CoinHeroTransport {
     private target;
     private pendingRequests;
@@ -18,11 +19,14 @@ export declare class CoinHeroTransport {
     private requestHandler;
     private messageHandler;
     private allowedOrigin;
+    private messageFilter;
     constructor(options: {
         /** Window to send messages to (window.parent for apps, iframe.contentWindow for host) */
         target: Window;
         /** If set, only accept messages from this origin. null = accept all. */
         allowedOrigin?: string | null;
+        /** Additional predicate for filtering inbound postMessage events. */
+        messageFilter?: MessageFilter | null;
     });
     /** Start listening for incoming messages */
     listen(): void;
