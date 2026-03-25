@@ -8,9 +8,6 @@ import { createConnector } from '@wagmi/core';
 import { getAddress, numberToHex } from 'viem';
 import { CoinHeroSDK } from './sdk.js';
 coinHeroConnector.type = 'coinHero';
-let accountsChanged;
-let chainChanged;
-let disconnectHandler;
 /**
  * Create a wagmi connector that uses the CoinHero host's wallet.
  *
@@ -18,6 +15,9 @@ let disconnectHandler;
  */
 export function coinHeroConnector(sdk) {
     const _sdk = sdk ?? new CoinHeroSDK();
+    let accountsChanged;
+    let chainChanged;
+    let disconnectHandler;
     return createConnector((config) => ({
         id: 'coinHero',
         name: 'CoinHero',

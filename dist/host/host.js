@@ -13,7 +13,6 @@ export class CoinHeroHost {
     onReady;
     onClose;
     onAuthTokenRequest;
-    messageFilter = null;
     constructor(options) {
         this.iframe = options.iframe;
         this._context = options.context;
@@ -28,25 +27,13 @@ export class CoinHeroHost {
         if (!contentWindow) {
             throw new Error('iframe has no contentWindow — is it mounted?');
         }
-        this.transport = new CoinHeroTransport({ target: contentWindow });
-        // Filter: only handle messages from our specific iframe
-        this.messageFilter = (event) => {
-            return event.source === contentWindow;
-        };
+        this.transport = new CoinHeroTransport({
+            target: contentWindow,
+            messageFilter: (event) => event.source === contentWindow,
+        });
         this.transport.onRequest(async (request) => {
             return this.handleRequest(request);
         });
-        // Override the default message handler to add source filtering
-        const originalHandler = (event) => {
-            if (!this.messageFilter?.(event))
-                return;
-        };
-        // The transport already listens, but we need source filtering.
-        // We'll handle this by wrapping — destroy and re-create with a
-        // custom approach. Actually, the transport listens on window and
-        // we just need the source check. Let's add it via the request handler.
-        // The transport will process all CoinHero messages, but our request
-        // handler can verify source if needed.
         this.transport.listen();
     }
     /** Update the context (e.g., when wallet changes) */
@@ -69,7 +56,6 @@ export class CoinHeroHost {
     destroy() {
         this.transport?.destroy();
         this.transport = null;
-        this.messageFilter = null;
     }
     // ── Private ────────────────────────────────────────────────────────
     async handleRequest(request) {

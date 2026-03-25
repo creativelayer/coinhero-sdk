@@ -54,6 +54,12 @@ export interface CoinHeroContext {
   username?: string
   /** Host version */
   hostVersion: string
+  /** CoinHero user ID */
+  coinHeroUserId?: string
+  /** Farcaster ID (if linked) */
+  fid?: number
+  /** Profile image URL */
+  profileImageUrl?: string
 }
 
 // ── Auth ──────────────────────────────────────────────────────────────

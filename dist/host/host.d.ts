@@ -28,7 +28,6 @@ export declare class CoinHeroHost {
     private onReady?;
     private onClose?;
     private onAuthTokenRequest?;
-    private messageFilter;
     constructor(options: CoinHeroHostOptions);
     /** Start listening for messages from the iframe */
     listen(): void;
