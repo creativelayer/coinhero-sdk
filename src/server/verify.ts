@@ -10,7 +10,7 @@ import * as jose from 'jose'
 // ── Constants ─────────────────────────────────────────────────────────
 
 const DEFAULT_JWKS_URL = 'https://coinhero.fun/api/auth/jwks'
-const COINHERO_ISSUER = 'coinhero'
+const COINHERO_ISSUER = 'https://coinhero.fun'
 const JWKS_CACHE_TTL = 60 * 60 * 1000 // 1 hour
 
 // ── Types ─────────────────────────────────────────────────────────────
