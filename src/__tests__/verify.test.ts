@@ -29,7 +29,7 @@ async function createTestJWT(
 ) {
   const builder = new SignJWT(claims)
     .setProtectedHeader({ alg: 'ES256', kid: 'test-key-1' })
-    .setIssuer(options?.issuer ?? 'coinhero')
+    .setIssuer(options?.issuer ?? 'https://coinhero.fun')
     .setIssuedAt()
 
   if (options?.expired) {
@@ -79,7 +79,7 @@ describe('verifyCoinHeroToken', () => {
 
     expect(result.walletAddress).toBe('0xabcdef1234567890')
     expect(result.payload).toBeDefined()
-    expect(result.payload.iss).toBe('coinhero')
+    expect(result.payload.iss).toBe('https://coinhero.fun')
   })
 
   it('returns full JWT payload alongside wallet address', async () => {
@@ -205,7 +205,7 @@ describe('verifyCoinHeroToken', () => {
     // Use a long-lived token so it doesn't expire when we advance the clock
     const token = await new SignJWT({ walletAddress: '0xaaa' })
       .setProtectedHeader({ alg: 'ES256', kid: 'test-key-1' })
-      .setIssuer('coinhero')
+      .setIssuer('https://coinhero.fun')
       .setIssuedAt()
       .setExpirationTime('24h')
       .sign(privateKey)
